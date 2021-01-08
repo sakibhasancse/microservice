@@ -26,7 +26,7 @@ app.post('/posts/:id/comments', async (req, res) => {
 
     await axios.post('http://localhost:4005/events', {
         type: "Created Comment", data: {
-            id: commentsId, content, postId: req.params.id
+            id: commentsId, content, postId: req.params.id, status: 'pending'
 
         }
     })
@@ -34,11 +34,32 @@ app.post('/posts/:id/comments', async (req, res) => {
 
 });
 
-app.post('/events', (req, res) => {
-    console.log('Recive Event', req.body.type)
-    res.send('Hello')
-})
+app.post('/events', async (req, res) => {
+    const { type, data } = req.body;
 
+    // its call to comments server to modared comment
+    if (type === 'CommentModerated') {
+        const { postId, id, status, content } = data
+        const comments = commentsByPostId[postId]
+        const comment = comments.find(comment => {
+            return comment.id === id
+        })
+        comment.status = status
+
+
+
+
+        await axios.post('http://localhost:4005/events', {
+            type: 'CommentUpdated', data: {
+                id: data.id,
+                postId,
+                status,
+                content
+            }
+        })
+
+    }
+})
 app.listen(4001, () => {
     console.log('Comment server listening on port 4001!');
 });
