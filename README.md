@@ -1,5 +1,5 @@
-# blog-microservice
-blog microservice
+# microservice
+ microservice
 
 ## Clone The Project
 - You can either use your git commands to clone the project or you can simple download the whole Project
@@ -31,5 +31,9 @@ You will also see any lint errors in the console.
 ## Thanks
 - Node JS
 - React JS
+- Docer && Kubernetes
+- Mongodb && mariaDB
+- Aws
+- NATS 
 - And all of my friends who continuously inspire me
 
