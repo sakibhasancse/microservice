@@ -1,10 +1,17 @@
 #Use an existing docker image as a base 
-FROM alpine
+FROM node:alpine
+
+#chnage workdirectory
+
+WORKDIR /app
 
 # Download and install a dependencies 
+COPY ./package.json ./
+RUN npm install
+COPY ./ ./
 
-RUN apk add --update redis
+
 #tell the image what to do when it started
 #as a container
 
-CMD ['redis-server']
+CMD ["npm","start"]
